@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Borceller - Admin Auth",
+  title: "Borceller - Admin Dashboard",
   description: "Admin dashboard to manage Borcelle's data",
 };
 
