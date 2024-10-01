@@ -10,26 +10,26 @@ import {
     {
       url: "/",
       icon: <LayoutDashboard />,
-      label: "Dashboard",
+      label: "Tổng quan",
     },
     {
       url: "/collections",
       icon: <Shapes />,
-      label: "Collections",
+      label: "Bộ sưu tập",
     },
     {
       url: "/products",
       icon: <Tag />,
-      label: "Products",
+      label: "Sản phẩm",
     },
     {
       url: "/orders",
       icon: <ShoppingBag />,
-      label: "Orders",
+      label: "Đơn hàng",
     },
     {
       url: "/customers",
       icon: <UsersRound />,
-      label: "Customers",
+      label: "Khách hàng",
     },
   ];
