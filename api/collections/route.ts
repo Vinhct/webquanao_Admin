@@ -1,4 +1,5 @@
 import { connectToDB } from "@/lib/mongoDB";
+
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,7 +9,7 @@ export const POST = async (req: NextRequest) => {
     try {
         const { userId } = auth()
 
-        if(!userId) {
+        if (!userId) {
             return new NextResponse("Unauthorized", { status: 403 })
         }
 
@@ -18,11 +19,11 @@ export const POST = async (req: NextRequest) => {
 
         const existingCollection = await Collection.findOne({ title })
 
-        if(existingCollection){
+        if (existingCollection) {
             return new NextResponse("Collection already exists", { status: 400 })
         }
 
-        if(!title || !image){
+        if (!title || !image) {
             return new NextResponse("Title and image are required", { status: 400 })
         }
 
@@ -30,15 +31,28 @@ export const POST = async (req: NextRequest) => {
             title,
             description,
             image,
-            userId,
         })
 
         await newCollection.save()
 
         return NextResponse.json(newCollection, { status: 200 })
-
-    } catch (err){
+    } catch (err) {
         console.log("[collections_POST]", err)
         return new NextResponse("Internal Server Error", { status: 500 })
     }
 }
+
+export const GET = async (req: NextRequest) => {
+    try {
+        await connectToDB()
+
+        const collections = await Collection.find().sort({ createdAt: "desc" })
+
+        return NextResponse.json(collections, { status: 200 })
+    } catch (err) {
+        console.log("[collections_GET]", err)
+        return new NextResponse("Internal Server Error", { status: 500 })
+    }
+}
+
+export const dynamic = "force-dynamic";

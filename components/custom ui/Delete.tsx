@@ -40,7 +40,7 @@ const Delete: React.FC<DeleteProps> = ({ item, id }) => {
       }
     } catch (err) {
       console.log(err)
-      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại.")
+      toast.error("Something went wrong! Please try again.")
     }
   }
   return (
@@ -52,14 +52,14 @@ const Delete: React.FC<DeleteProps> = ({ item, id }) => {
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-white text-grey-1">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-red-1">Bạn có chắc chắn không?</AlertDialogTitle>
+          <AlertDialogTitle className="text-red-1">Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-          Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn {item} của bạn.
+            This action cannot be undone. This will permanently delete your {item}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-1 text-white" onClick={onDelete}>Xóa</AlertDialogAction>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction className="bg-red-1 text-white" onClick={onDelete}>Delete</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

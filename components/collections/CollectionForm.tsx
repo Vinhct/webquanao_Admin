@@ -29,7 +29,7 @@ const formSchema = z.object({
 });
 
 interface CollectionFormProps {
-  initialData?: CollectionType | null;
+  initialData?: CollectionType | null; 
 }
 
 const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
@@ -72,7 +72,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
       }
     } catch (err) {
       console.log("[collections_POST]", err);
-      toast.error("Đã có lỗi xảy ra! Vui lòng thử lại.");
+      toast.error("Something went wrong! Please try again.");
     }
   };
 
@@ -84,7 +84,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
           <Delete id={initialData._id} item="collection" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Tạo bộ sưu tập</p>
+        <p className="text-heading2-bold">Thêm bộ sưu tập</p>
       )}
       <Separator className="bg-grey-1 mt-4 mb-7" />
       <Form {...form}>
@@ -120,7 +120,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image</FormLabel>
+                <FormLabel>Hình ảnh</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}

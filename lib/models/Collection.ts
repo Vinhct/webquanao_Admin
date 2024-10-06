@@ -14,7 +14,7 @@ const collectionSchema = new mongoose.Schema({
   products: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Sản phẩm",
+      ref: "Product",
     }
   ],
   createdAt: {
@@ -27,6 +27,6 @@ const collectionSchema = new mongoose.Schema({
   }
 })
 
-const Collection =mongoose.models.Collection || mongoose.model("Bộ sưu tập", collectionSchema);
+const Collection =mongoose.models.Collection || mongoose.model("Collection", collectionSchema);
 
 export default Collection;
