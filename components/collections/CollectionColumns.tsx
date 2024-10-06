@@ -7,7 +7,7 @@ import Link from "next/link";
 export const columns: ColumnDef<CollectionType>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Tiêu đề",
     cell: ({ row }) => (
       <Link
         href={`/collections/${row.original._id}`}
@@ -19,7 +19,7 @@ export const columns: ColumnDef<CollectionType>[] = [
   },
   {
     accessorKey: "products",
-    header: "Products",
+    header: "Sản phẩm",
     cell: ({ row }) => <p>{row.original.products.length}</p>,
   },
   {
