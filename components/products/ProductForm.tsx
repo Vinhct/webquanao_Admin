@@ -21,7 +21,7 @@ import ImageUpload from "../custom ui/ImageUpload";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
-import MultiText from "../custom ui/MultiText";
+import MultiText from "../custom ui/MultiText"
 
 
 const formSchema = z.object({
@@ -29,7 +29,7 @@ const formSchema = z.object({
   description: z.string().min(0).max(500).trim(),
   media: z.array(z.string()),
   category: z.string(),
-  Collections: z.array(z.string()),
+  collections: z.array(z.string()),
   tags: z.array(z.string()),
   sizes: z.array(z.string()),
   colors: z.array(z.string()),
@@ -226,10 +226,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <FormControl>
-                    <Input
+                  <MultiText
                       placeholder="Tags"
-                      {...field}
-                      onKeyDown={handleKeyPress}
+                      value={field.value}
+                      onChange={(tag) => field.onChange([...field.value, tag])}
+                      onRemove={(tagToRemove) =>
+                        field.onChange([
+                          ...field.value.filter((tag) => tag !== tagToRemove),
+                        ])
+                      }
                     />
                   </FormControl>
                   <FormMessage />
