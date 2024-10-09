@@ -75,7 +75,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           description: "",
           media: [],
           category: "",
-          collections: "",
+          collections: [],
           tags: [],
           sizes: [],
           colors: [],
