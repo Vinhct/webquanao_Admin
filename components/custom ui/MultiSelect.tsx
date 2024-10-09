@@ -94,11 +94,3 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 };
 
 export default MultiSelect;
-
-export function BadgeSecondary() {
-  return <Badge variant="secondary">Secondary</Badge>;
-}
-
-export function BadgeOutline() {
-  return <Badge variant="outline">Outline</Badge>;
-}
