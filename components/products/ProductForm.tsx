@@ -18,11 +18,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import ImageUpload from "../custom ui/ImageUpload";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
-import MultiText from "../custom ui/MultiText"
-
+import MultiText from "../custom ui/MultiText";
+import MultiSelect from "../custom ui/MultiSelect";
 
 const formSchema = z.object({
   title: z.string().min(2).max(20),
@@ -33,8 +33,8 @@ const formSchema = z.object({
   tags: z.array(z.string()),
   sizes: z.array(z.string()),
   colors: z.array(z.string()),
-  price: z.coerce.number().min(0),
-  expense: z.coerce.number().min(0),
+  price: z.coerce.number().min(0.1),
+  expense: z.coerce.number().min(0.1),
 });
 
 interface ProductFormProps {
@@ -45,6 +45,26 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [collections, setCollections] = useState<CollectionType[]>([]);
+
+  const getCollections = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/collections", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setCollections(data);
+      setLoading(false);
+    } catch (err) {
+      console.log("[collections_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getCollections();
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,12 +75,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           description: "",
           media: [],
           category: "",
-          Collections: "",
+          collections: "",
           tags: [],
           sizes: [],
           colors: [],
-          price: 0,
-          expense: 0,
+          price: 0.1,
+          expense: 0.1,
         },
   });
 
@@ -122,7 +142,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     onKeyDown={handleKeyPress}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-1"/>
               </FormItem>
             )}
           />
@@ -140,7 +160,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     onKeyDown={handleKeyPress}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-1"/>
               </FormItem>
             )}
           />
@@ -161,7 +181,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     }
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-1"/>
               </FormItem>
             )}
           />
@@ -180,7 +200,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-1"/>
                 </FormItem>
               )}
             />
@@ -198,7 +218,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-1"/>
                 </FormItem>
               )}
             />
@@ -215,7 +235,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-1"/>
                 </FormItem>
               )}
             />
@@ -226,7 +246,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <FormControl>
-                  <MultiText
+                    <MultiText
                       placeholder="Tags"
                       value={field.value}
                       onChange={(tag) => field.onChange([...field.value, tag])}
@@ -237,7 +257,84 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       }
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-1"/>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="collections"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bộ sưu tập</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      placeholder="Bộ sưu tập"
+                      collections={collections}
+                      value={field.value}
+                      onChange={(_id) => field.onChange([...field.value, _id])}
+                      onRemove={(idToRemove) =>
+                        field.onChange([
+                          ...field.value.filter(
+                            (collectionId) => collectionId !== idToRemove
+                          ),
+                        ])
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-1"/>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="colors"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Màu sắc</FormLabel>
+                  <FormControl>
+                    <MultiText
+                      placeholder="Màu sắc"
+                      value={field.value}
+                      onChange={(color) =>
+                        field.onChange([...field.value, color])
+                      }
+                      onRemove={(colorToRemove) =>
+                        field.onChange([
+                          ...field.value.filter(
+                            (color) => color !== colorToRemove
+                          ),
+                        ])
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-1"/>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="sizes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Kích thước </FormLabel>
+                  <FormControl>
+                    <MultiText
+                      placeholder="Kích thước"
+                      value={field.value}
+                      onChange={(size) =>
+                        field.onChange([...field.value, size])
+                      }
+                      onRemove={(sizeToRemove) =>
+                        field.onChange([
+                          ...field.value.filter(
+                            (size) => size !== sizeToRemove
+                          ),
+                        ])
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-1"/>
                 </FormItem>
               )}
             />
