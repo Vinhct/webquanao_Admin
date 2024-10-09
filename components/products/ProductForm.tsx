@@ -109,6 +109,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         toast.success(`Product ${initialData ? "updated" : "created"}`);
         window.location.href = "/products";
         router.push("/products");
+      } 
+      else {
+        const errorMessage = await res.text();
+        toast.error(errorMessage); 
+        setLoading(false);
+        return; 
       }
     } catch (err) {
       console.log("[products_POST]", err);
@@ -142,7 +148,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     onKeyDown={handleKeyPress}
                   />
                 </FormControl>
-                <FormMessage className="text-red-1"/>
+                <FormMessage className="text-red-1" />
               </FormItem>
             )}
           />
@@ -160,7 +166,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     onKeyDown={handleKeyPress}
                   />
                 </FormControl>
-                <FormMessage className="text-red-1"/>
+                <FormMessage className="text-red-1" />
               </FormItem>
             )}
           />
@@ -181,7 +187,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     }
                   />
                 </FormControl>
-                <FormMessage className="text-red-1"/>
+                <FormMessage className="text-red-1" />
               </FormItem>
             )}
           />
@@ -200,7 +206,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1"/>
+                  <FormMessage className="text-red-1" />
                 </FormItem>
               )}
             />
@@ -218,7 +224,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1"/>
+                  <FormMessage className="text-red-1" />
                 </FormItem>
               )}
             />
@@ -235,7 +241,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1"/>
+                  <FormMessage className="text-red-1" />
                 </FormItem>
               )}
             />
@@ -257,7 +263,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       }
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1"/>
+                  <FormMessage className="text-red-1" />
                 </FormItem>
               )}
             />
@@ -282,7 +288,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       }
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1"/>
+                  <FormMessage className="text-red-1" />
                 </FormItem>
               )}
             />
@@ -308,7 +314,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       }
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1"/>
+                  <FormMessage className="text-red-1" />
                 </FormItem>
               )}
             />
@@ -334,7 +340,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       }
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1"/>
+                  <FormMessage className="text-red-1" />
                 </FormItem>
               )}
             />
