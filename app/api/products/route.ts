@@ -17,7 +17,7 @@ export const POST = async (req: NextRequest) =>{
 
       const { title, description, media, category, collections, tags, sizes, colors, price, expense } = await req.json();
 
-      if (!title || !category || collections.length === 0 || tags.length === 0 || sizes.length === 0 || colors.length === 0 || !price || !expense) {
+      if (!title || !description || media.length === 0 || !category || tags.length === 0 || sizes.length === 0 || colors.length === 0 || !price || !expense) {
         return new NextResponse("Không đủ dữ liệu để tạo sản phẩm", { status: 400});
       }
 
@@ -35,6 +35,17 @@ export const POST = async (req: NextRequest) =>{
       });
 
       await newProduct.save();
+
+      if (collections) {
+        for (const collectionId of collections) {
+          const collection = await Collection.findById(collectionId);
+          if (collection) {
+            collection.products.push(newProduct._id);
+            await collection.save();
+          }
+        }
+
+      }
 
       return NextResponse.json(newProduct, { status: 200 });
       
