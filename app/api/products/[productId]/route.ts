@@ -45,7 +45,7 @@ export const GET = async (
   
       const { title, description, media, category, collections, tags, sizes, colors, price, expense } = await req.json();
   
-      if (!title || !description || media.length === 0 || !category || tags.length === 0 || sizes.length === 0 || colors.length === 0 || !price || !expense) {
+      if (!title || !category || tags.length === 0 || sizes.length === 0 || colors.length === 0 || !price || !expense) {
         return new NextResponse("Không đủ dữ liệu để tạo sản phẩm", { status: 400 });
       }
   
