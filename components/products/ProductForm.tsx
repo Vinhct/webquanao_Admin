@@ -114,13 +114,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         toast.success(`Product ${initialData ? "updated" : "created"}`);
         window.location.href = "/products";
         router.push("/products");
-      } 
+      } else {
+        const errorMessage = await res.text();
+        toast.error(errorMessage); 
+        setLoading(false);
+        return; 
+      }
     } catch (err) {
       console.log("[products_POST]", err);
       toast.error("Something went wrong! Please try again.");
     }
   };
-
 
   return loading ? (
     <Loader />
