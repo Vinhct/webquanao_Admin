@@ -15,7 +15,6 @@ import {
 import React, { useState } from "react";
 import { Badge } from "../ui/badge";
 import { X } from "lucide-react";
-import { Collection } from "mongoose";
 
 interface MultiSelectProps {
   placeholder: string;
