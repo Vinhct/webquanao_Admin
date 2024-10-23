@@ -50,7 +50,7 @@ export const GET = async (
       }
   
       // Lấy danh sách collection hiện có của sản phẩm
-      const currentCollections = product.collections.map((c: any) => c.toString()); // Chuyển ObjectId thành string để so sánh
+      const currentCollections = product.collections.map((c: string) => c.toString()); // Chuyển ObjectId thành string để so sánh
       const newCollections = collections.filter((collectionId: string) => !currentCollections.includes(collectionId)); // Collection mới cần thêm
       const removedCollections = currentCollections.filter((collectionId: string) => !collections.includes(collectionId)); // Collection cần xóa
   
