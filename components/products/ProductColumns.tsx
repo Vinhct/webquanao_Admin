@@ -28,11 +28,11 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     accessorKey: "price",
-    header: "Giá (VNĐ)",
+    header: "Giá (VND)",
   },
   {
     accessorKey: "expense",
-    header: "Chi phí (VNĐ)",
+    header: "Chi phí (VND)",
   },
   {
     id: "actions",
