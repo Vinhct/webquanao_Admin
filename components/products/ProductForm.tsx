@@ -101,13 +101,23 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      const sanitizedValues = {
+        ...values,
+        title: values.title.trim(),
+        description: values.description.trim(),
+        category: values.category.trim(),
+        tags: values.tags.map(tag => tag.trim()).filter(tag => tag), // Làm sạch tags
+        sizes: values.sizes.map(size => size.trim()).filter(size => size), // Làm sạch sizes
+        colors: values.colors.map(color => color.trim()).filter(color => color), // Làm sạch colors
+      };
+
       setLoading(true);
       const url = initialData
         ? `/api/products/${initialData._id}`
         : "/api/products";
       const res = await fetch(url, {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify(sanitizedValues),
       });
       if (res.ok) {
         setLoading(false);
@@ -116,9 +126,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         router.push("/products");
       } else {
         const errorMessage = await res.text();
-        toast.error(errorMessage); 
+        toast.error(errorMessage);
         setLoading(false);
-        return; 
+        return;
       }
     } catch (err) {
       console.log("[products_POST]", err);
@@ -152,6 +162,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     placeholder="Tiêu đề"
                     {...field}
                     onKeyDown={handleKeyPress}
+                    onBlur={() => {
+                      const trimmedValue = field.value.trim();
+                      form.setValue("title", trimmedValue);
+                    }}
                   />
                 </FormControl>
                 <FormMessage className="text-red-1" />
@@ -170,6 +184,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     {...field}
                     rows={5}
                     onKeyDown={handleKeyPress}
+                    onBlur={() => {
+                      const trimmedValue = field.value.trim();
+                      form.setValue("description", trimmedValue);
+                    }}
                   />
                 </FormControl>
                 <FormMessage className="text-red-1" />
@@ -245,6 +263,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       placeholder="Thể loại"
                       {...field}
                       onKeyDown={handleKeyPress}
+                      onBlur={() => {
+                        const trimmedValue = field.value.trim();
+                        form.setValue("category", trimmedValue);
+                      }}
                     />
                   </FormControl>
                   <FormMessage className="text-red-1" />
@@ -261,11 +283,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <MultiText
                       placeholder="Tags"
                       value={field.value}
-                      onChange={(tag) => field.onChange([...field.value, tag])}
+                      onChange={(tag) => {
+                        const trimmedTag = tag.trim();
+                        if (trimmedTag) {
+                          field.onChange([...field.value, trimmedTag]); // Chỉ thêm tag nếu hợp lệ
+                        }
+                      }}
                       onRemove={(tagToRemove) =>
-                        field.onChange([
-                          ...field.value.filter((tag) => tag !== tagToRemove),
-                        ])
+                        field.onChange(
+                          field.value.filter((tag) => tag !== tagToRemove)
+                        )
                       }
                     />
                   </FormControl>
@@ -312,15 +339,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <MultiText
                       placeholder="Màu sắc"
                       value={field.value}
-                      onChange={(color) =>
-                        field.onChange([...field.value, color])
-                      }
+                      onChange={(color) => {
+                        const trimmedColor = color.trim();
+                        if (trimmedColor) {
+                          field.onChange([...field.value, trimmedColor]); // Chỉ thêm nếu hợp lệ
+                        }
+                      }}
                       onRemove={(colorToRemove) =>
-                        field.onChange([
-                          ...field.value.filter(
-                            (color) => color !== colorToRemove
-                          ),
-                        ])
+                        field.onChange(
+                          field.value.filter((color) => color !== colorToRemove)
+                        )
                       }
                     />
                   </FormControl>
@@ -333,20 +361,21 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="sizes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Kích thước </FormLabel>
+                  <FormLabel>Kích thước</FormLabel>
                   <FormControl>
                     <MultiText
                       placeholder="Kích thước"
                       value={field.value}
-                      onChange={(size) =>
-                        field.onChange([...field.value, size])
-                      }
+                      onChange={(size) => {
+                        const trimmedSize = size.trim();
+                        if (trimmedSize) {
+                          field.onChange([...field.value, trimmedSize]); // Chỉ thêm nếu hợp lệ
+                        }
+                      }}
                       onRemove={(sizeToRemove) =>
-                        field.onChange([
-                          ...field.value.filter(
-                            (size) => size !== sizeToRemove
-                          ),
-                        ])
+                        field.onChange(
+                          field.value.filter((size) => size !== sizeToRemove)
+                        )
                       }
                     />
                   </FormControl>
