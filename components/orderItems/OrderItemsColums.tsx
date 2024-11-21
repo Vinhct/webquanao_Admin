@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export const columns: ColumnDef<OrderItemType>[] = [
   {
-    accessorKey: "product",
+    accessorKey: "productName",
     header: "Sản phẩm",
     cell: ({ row }) => {
       return (
