@@ -7,6 +7,12 @@ const OrderDetails = async ({ params }: { params: {orderId: string }}) => {
 
     const { street, city, state, postalCode, country } = orderDetails.shippingAddress
 
+    // Chuyển đổi dữ liệu
+    const transformedData = orderDetails.products.map((item: OrderItemType) => ({
+        ...item,
+        productName: item.product.title, 
+    }));
+
   return (
     <div className="flex flex-col p-10 gap-5">
         <p className="text-base-bold">
@@ -24,7 +30,7 @@ const OrderDetails = async ({ params }: { params: {orderId: string }}) => {
         <p className="text-base-bold">
             Shipping rate ID: <span className="text-base-medium">{orderDetails.shippingRate}</span>
         </p>
-        <DataTable columns={columns} data={orderDetails.products} searchKey="product"/>
+        <DataTable columns={columns} data={transformedData} searchKey="productName"/>
     </div>
   )
 }
