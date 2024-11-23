@@ -54,7 +54,7 @@ export default async function Home() {
 
       <Card className="mt-10">
         <CardHeader>
-          <CardTitle>Biểu đồ doanh thu ($)</CardTitle>
+          <CardTitle>Biểu đồ doanh thu (VND)</CardTitle>
         </CardHeader>
         <CardContent>
           <SalesChart data={graphData} />
