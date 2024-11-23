@@ -17,6 +17,12 @@ export const POST = async (req: NextRequest) =>{
 
       const { title, description, media, category, collections, tags, sizes, colors, price, expense } = await req.json();
 
+      const existingProduct = await Product.findOne({ title })
+
+      if (existingProduct) {
+        return new NextResponse("Tên sản phẩm đã tồn tại", { status: 400 })
+      }
+
       if (!title || !category || tags.length === 0 || sizes.length === 0 || colors.length === 0 || !price || !expense) {
         return new NextResponse("Không đủ dữ liệu để tạo sản phẩm", { status: 400});
       }
